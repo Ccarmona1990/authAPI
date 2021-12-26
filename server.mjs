@@ -1,0 +1,33 @@
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import registerRoute from './routes/reg.mjs'
+import loginRoute from './routes/login.mjs'
+import DBconnection from './DB/connect.mjs'
+import morgan from 'morgan';
+dotenv.config()
+
+const app = express();
+const port = process.env.PORT;
+const URI = process.env.MONGO_URI;
+
+// parsers 
+app.use(express.urlencoded({extended:false}));
+app.use(express.json());
+
+app.use(morgan('tiny'));
+app.use(cors({origin: '*'}));
+
+// route
+app.use('/api/v1/register',registerRoute)
+app.use('/api/v1/login', loginRoute)
+
+const start = async ()=>{
+    try {
+        await DBconnection(URI)
+        app.listen(port, ()=>console.log(`Server open on port: ${port}`))
+    } catch (err) {
+        console.log(err);
+    }
+}
+start();
