@@ -32,7 +32,7 @@ app.use(session({
 
 app.use(morgan('tiny'));
 app.use(cors({
-    origin: ['http//http://localhost:3000/', 'http://localhost:8080/'],
+    origin: '*',
     methods: ["GET", "POST"],
     credentials: true
     })
