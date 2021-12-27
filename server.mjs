@@ -32,7 +32,7 @@ app.use(session({
 
 app.use(morgan('tiny'));
 app.use(cors({
-    origin: '*',
+    origin: ['http//http://localhost:3000/', 'http://localhost:8080/', 'https://tm-auth-api.herokuapp.com/', 'https://tm-auth-api.herokuapp.com/api/v1/login/', 'https://tm-auth-api.herokuapp.com/api/v1/register/', 'https://tm-auth-api.herokuapp.com/api/v1/tasks/','https://taskm-api.herokuapp.com/', 'https://taskm-api.herokuapp.com/api/v1/tasks' ],
     methods: ["GET", "POST"],
     credentials: true
     })
