@@ -32,7 +32,6 @@ app.use(session({
 
 app.use(morgan('tiny'));
 app.use(cors({
-    origin: 'https://tm-auth-api.herokuapp.com/api/v1/login/',
     methods: ["GET", "POST"],
     credentials: true,
     })
