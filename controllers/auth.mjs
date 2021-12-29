@@ -8,7 +8,7 @@ export const getUser = async (req, res)=>{
         if(!user){
             return res.status(404).json({msg:`No user with said credentials. Please try again`})
         }
-        res.status(200).json({user})
+        res.status(200).json({success: true})
     } catch (error) {
         const {message} = error;
         res.status(500).json({msg: message, success: false})
@@ -26,7 +26,7 @@ export const createUser = async (req, res)=>{
             if(err){console.log(err);}
             try {
                 const user = await User.create({username, password: hash});
-                res.status(201).json({user})
+                res.status(201).json({success: true, msg: `The user was successfully created!`})
             } catch (err) {
                 console.log(err)
             }
@@ -38,15 +38,16 @@ export const createUser = async (req, res)=>{
 }
 
 export const loginSession = async (req, res)=>{
+    const user = req.session.user;
     try {
-        if(req.session.user){
-            res.status(200).json({loggedIn: true, user: req.session.user})
+        if(user){
+            res.status(200).json({loggedIn: true})
         } else {
             res.status(200).json({loggedIn: false}) 
         }
     } catch (error) {
         const {message}= error;
-        res.status(500).json({message});
+        res.status(500).json({success: false, message});
     }
 }
 
@@ -66,7 +67,7 @@ export const loginUser = async (req, res)=>{
         bcrypt.compare(password, user.password, (err, result)=>{
             if(result){
                 req.session.user = user;
-                res.status(200).json({user})
+                res.status(200).json({success: true, msg:`User has logged`})
             } else {
                 res.send({msg:'Incorrect username or password. Please try again'})
             }
