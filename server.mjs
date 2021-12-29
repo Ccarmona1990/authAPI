@@ -33,7 +33,7 @@ app.use(session({
 
 app.use(morgan('tiny'));
 app.use(cors({
-    origin: 'https://t-manager.netlify.app/',
+    origin: '*',
     methods: ["GET", "POST"],
     //credentials: true
     })
