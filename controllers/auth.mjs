@@ -2,11 +2,11 @@ import bcrypt from 'bcrypt'
 import {User} from '../models/auth.mjs'
 
 export const getUser = async (req, res)=>{
-    const {username, password} = req.params;
+    const username = req.params.username;
     try {
         const user = await User.findOne({username})
         if(!user){
-            return res.status(404).json({msg:`No user with: ${username} and ${password}`})
+            return res.status(404).json({msg:`No user with said credentials. Please try again`})
         }
         res.status(200).json({user})
     } catch (error) {
@@ -23,7 +23,6 @@ export const createUser = async (req, res)=>{
             return res.status(500).json({msg:'This username already exist, please introduce a username that has not been used', success: false})
         }
         bcrypt.hash(password,5, async (err, hash)=>{
-            //console.log(hash);
             if(err){console.log(err);}
             try {
                 const user = await User.create({username, password: hash});
@@ -43,7 +42,7 @@ export const loginSession = async (req, res)=>{
         if(req.session.user){
             res.status(200).json({loggedIn: true, user: req.session.user})
         } else {
-            res.status(200).json({loggedIn: false})
+            res.status(200).json({loggedIn: false}) 
         }
     } catch (error) {
         const {message}= error;

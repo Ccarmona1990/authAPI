@@ -4,4 +4,4 @@ const router = express.Router();
 
 router.route('/').get(loginSession).post(loggoutUser);
 
-export default router
+export default router 
