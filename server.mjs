@@ -33,7 +33,7 @@ app.use(session({
 
 app.use(morgan('tiny'));
 app.use(cors({
-    origin: ['http://localhost:3000/','http://localhost:3000/task-manager','http://localhost:3001/', 'http://localhost:3001/api/v1/login/', 'http://localhost:3001/api/v1/register/', 'http://localhost:3001/api/v1/tasks/','http://localhost:8080/', 'http://localhost:8080/api/v1/login/', 'http://localhost:8080/api/v1/register/', 'http://localhost:8080/api/v1/tasks/', 'https://tm-auth-api.herokuapp.com/', 'https://tm-auth-api.herokuapp.com/api/v1/login/', 'https://tm-auth-api.herokuapp.com/api/v1/register/', 'https://tm-auth-api.herokuapp.com/api/v1/tasks/', 'https://t-manager.netlify.app/', 'https://t-manager.netlify.app/task-manager'],
+    origin: 'https://t-manager.netlify.app/',
     methods: ["GET", "POST"],
     //credentials: true
     })
