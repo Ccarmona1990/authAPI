@@ -51,7 +51,7 @@ app.use(cors({
         'https://t-manager.netlify.app/',
         'https://t-manager.netlify.app/task-manager'],
     methods: ["GET", "POST"],
-    credentials: true
+    //credentials: true
     })
 );
 
