@@ -16,16 +16,17 @@ export const getUser = async (req, res)=>{
 }
 
 export const createUser = async (req, res)=>{
-    const {username, password} = req.body;
+    const {username, email, password} = req.body;
     try {
         const userName = await User.findOne({username});
-        if(userName){
+        const eMail = await User.findOne({email});
+        if(userName || eMail){
             return res.status(500).json({msg:'This username already exist, please introduce a username that has not been used', success: false})
         }
         bcrypt.hash(password,5, async (err, hash)=>{
             if(err){console.log(err);}
             try {
-                const user = await User.create({username, password: hash});
+                const user = await User.create({username, email, password: hash});
                 res.status(201).json({success: true, msg: `The user was successfully created!`})
             } catch (err) {
                 console.log(err)
@@ -58,13 +59,20 @@ export const loggoutUser = (req, res) =>{
 } 
 
 export const loginUser = async (req, res)=>{
-    const {username, password} = req.body;
+    const {username, email, password} = req.body;
+    
     try {
         const user = await User.findOne({username})
+        const eMail = await User.findOne({email});
+        
         if(!user){
-            return res.status(404).json({msg:`No user found with the information provided. Please check your username or password`})
+            if(!eMail){
+                return res.status(404).json({msg:`No user found with the information provided. Please check credentials`})
+            }
         }
-        bcrypt.compare(password, user.password, (err, result)=>{
+        const passwordDB = user?.password ? user?.password : eMail?.password ? eMail?.password : null;
+
+        bcrypt.compare(password, passwordDB, (err, result)=>{
             if(result){
                 req.session.user = user;
                 res.status(200).json({success: true, msg:`User has logged`})
