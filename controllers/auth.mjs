@@ -59,11 +59,11 @@ export const loggoutUser = (req, res) =>{
 } 
 
 export const loginUser = async (req, res)=>{
-    const {username, email, password} = req.body;
+    const {username, password} = req.body;
     
     try {
         const user = await User.findOne({username})
-        const eMail = await User.findOne({email});
+        const eMail = await User.findOne({email: username});
         
         if(!user){
             if(!eMail){
